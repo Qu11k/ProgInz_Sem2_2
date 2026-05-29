@@ -3,6 +3,7 @@ package lv.venta.service.impl;
 import java.util.ArrayList;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import lv.venta.model.Grade;
 import lv.venta.model.Student;
@@ -11,27 +12,35 @@ import lv.venta.repo.ICourseRepo;
 import lv.venta.repo.IGradeRepo;
 import lv.venta.repo.IProfessorRepo;
 import lv.venta.repo.IStudentRepo;
-import lv.venta.service.Course;
 import lv.venta.service.IFilterService;
-
+@Service
 public class FilterServiceImpl implements IFilterService{
 @Autowired
 private IStudentRepo studRepo;
+@Autowired
 private IGradeRepo gradeRepo;
+@Autowired
 private ICourseRepo courseRepo;
+@Autowired
 private IProfessorRepo profRepo;
 	@Override
 	public ArrayList<Grade> filterGradesByStudentId(long id) throws Exception {
-		if(id<1) {
-			throw new Exception("id nevar but negativs");
+		if(id < 1) {
+			throw new Exception("Id nevar būt negatīvs");
 		}
 		if(!studRepo.existsById(id)) {
-			throw new Exception("students ar tadu id neeksiste");
+			throw new Exception("Students ar id " + id + " neeksistē");
 		}
-		if(gradeRepo.count()==0) {
-			throw new Exception("nav studentu");
+		if(gradeRepo.count() == 0) {
+			throw new Exception("Atzīmju tabula ir tukša un nevaram filtrēt");
 		}
-		return null;
+		ArrayList<Grade> resultFromDB = gradeRepo.findByStudentIds(id);
+		
+		if(resultFromDB.isEmpty()) {
+			throw new Exception("Studentam ar id " + id + " nav piesaistīta neviena atzīme");
+		}
+		
+		return resultFromDB;
 	}
 
 	@Override

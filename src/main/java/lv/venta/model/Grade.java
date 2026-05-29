@@ -36,7 +36,7 @@ public class Grade {
 	@Max(10)
 	private int grvalue;
 	
-	@NotNull
+//	@NotNull
 	@ManyToOne
 	@JoinColumn(name = "Ids")
 	private Student student;
