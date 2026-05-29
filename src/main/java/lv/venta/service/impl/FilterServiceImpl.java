@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import lv.venta.model.Grade;
+import lv.venta.model.Student;
 import lv.venta.model.enums.Degree;
 import lv.venta.repo.ICourseRepo;
 import lv.venta.repo.IGradeRepo;
@@ -65,6 +66,21 @@ private IProfessorRepo profRepo;
 		ArrayList<lv.venta.model.Course> results=courseRepo.findByProfessorDegree(degree);
 		if (results.isEmpty()) {
 			throw new Exception("nav neviens kurss kurs butu piesaistits profesoram");
+		}
+		return results;
+	}
+
+	@Override
+	public ArrayList<Student> filterStudentsFailed() throws Exception {
+		if (gradeRepo.count()==0) {
+		throw new Exception("Atzimju tabula ir tuksa");
+		}
+		if(studRepo.count()==0){
+			throw new Exception("studentu tabula ir tuksa");
+		}
+		ArrayList<Student> results=studRepo.findByGradesGrvalueLessThan(4);
+		if(results.isEmpty()) {
+			throw new Exception("nav neviens students kuram butu nesekmiga atzime");
 		}
 		return results;
 	}
