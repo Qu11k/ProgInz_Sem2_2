@@ -25,7 +25,7 @@ import lombok.ToString;
 @Setter //visiem klases mainīgajiem tiek uzģeneretas set funkcijas no lombok
 @NoArgsConstructor//no lombok
 @ToString//no lombok
-@Table(name = "StudentTable")
+//@Table(name = "StudentTable")
 @Entity
 public class Student extends Person {
 	@OneToMany(mappedBy = "student")
