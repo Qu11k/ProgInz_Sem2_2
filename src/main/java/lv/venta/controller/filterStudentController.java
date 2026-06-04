@@ -1,5 +1,7 @@
 package lv.venta.controller;
 
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lv.venta.model.Student;
 import lv.venta.model.enums.Degree;
 import lv.venta.service.IFilterService;
 @Controller
@@ -42,6 +45,17 @@ public class filterStudentController {
 		try {
 			model.addAttribute("package", filterService.filterCoursesByProfessorDegree(degree));
 			return "show-multiple-courses";
+		}
+		catch(Exception e){
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+	@GetMapping("student/failed")
+	public String getControllerFailedStudents(Model model) {
+		try {
+		model.addAttribute("package", filterService.filterStudentsFailed());
+		return "show-multiple-students";
 		}
 		catch(Exception e){
 			model.addAttribute("package", e.getMessage());

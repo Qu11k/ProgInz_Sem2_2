@@ -50,7 +50,7 @@ public class ProgInzSeminars22026Application {
 				Grade g1 = new Grade(8, s1, c1);//Mikus nopelnīja 8 JAVA
 				Grade g2 = new Grade(6, s1, c2);//Mikus nopelnīja 6 WEBTech
 				Grade g3 = new Grade(10, s2, c1);//Kristers nopelnīja 10 JAVA
-				Grade g4 = new Grade(4, s2, c2);//Kristers nopelnīja 4 WEBTech
+				Grade g4 = new Grade(2, s2, c2);//Kristers nopelnīja 4 WEBTech
 				gradeRepo.saveAll(Arrays.asList(g1,g2,g3,g4));
 				
 			}
