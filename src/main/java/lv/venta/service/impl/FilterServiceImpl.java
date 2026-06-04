@@ -34,7 +34,7 @@ private IProfessorRepo profRepo;
 		if(gradeRepo.count() == 0) {
 			throw new Exception("Atzīmju tabula ir tukša un nevaram filtrēt");
 		}
-		ArrayList<Grade> resultFromDB = gradeRepo.findByStudentIds(id);
+		ArrayList<Grade> resultFromDB = gradeRepo.findByStudentIdp(id);
 		
 		if(resultFromDB.isEmpty()) {
 			throw new Exception("Studentam ar id " + id + " nav piesaistīta neviena atzīme");
