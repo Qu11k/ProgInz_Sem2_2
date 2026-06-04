@@ -27,25 +27,13 @@ import lombok.ToString;
 @ToString//no lombok
 @Table(name = "StudentTable")
 @Entity
-public class Student {
+public class Student extends Person {
 	
 	@Column(name = "Ids")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)//priekš ids nebūs set funkcija
 	private long ids;
-	
-	@Column(name = "Name")
-	@NotNull
-	@NotEmpty
-	@Pattern(regexp = "[A-Ž]{1}[a-ž]{2,20}([ ]{1}([A-Ž]{1}[a-ž]{2,20}))?")
-	private String name;
-	
-	@Column(name = "Surname")
-	@NotNull
-	@NotEmpty
-	@Pattern(regexp = "[A-Ž]{1}[a-ž]{2,20}([ -]{1}([A-Ž]{1}[a-ž]{2,20}))?")
-	private String surname;
 	
 	@OneToMany(mappedBy = "student")
 	@ToString.Exclude

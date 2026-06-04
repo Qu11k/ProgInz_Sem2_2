@@ -25,25 +25,13 @@ import lv.venta.model.enums.Degree;
 @ToString
 @Table(name = "ProfessorTable")
 @Entity
-public class Professor {
+public class Professor extends Person {
 
 	@Column(name = "Idp")
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Setter(value = AccessLevel.NONE)
 	private long idp;
-	
-	@Column(name = "Name")
-	@NotNull
-	@NotEmpty
-	@Pattern(regexp = "[A-Ž]{1}[a-ž]{2,20}([ ]{1}([A-Ž]{1}[a-ž]{2,20}))?")
-	private String name;
-	
-	@Column(name = "Surname")
-	@NotNull
-	@NotEmpty
-	@Pattern(regexp = "[A-Ž]{1}[a-ž]{2,20}([ -]{1}([A-Ž]{1}[a-ž]{2,20}))?")
-	private String surname;
 	
 	@NotNull
 	@Column(name = "Degree")
