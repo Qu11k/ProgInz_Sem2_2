@@ -47,8 +47,7 @@ public class Professor extends Person {
 	
 	
 	public Professor(String name, String surname, Degree degree) {
-		setName(name);
-		setSurname(surname);
+		super(name,surname);
 		setDegree(degree);
 	}
 }
