@@ -9,5 +9,6 @@ import lv.venta.model.Student;
 public interface IStudentRepo extends CrudRepository<Student, Long> {
 
 	ArrayList<Student> findByGradesGrvalueLessThan(int i);
+	ArrayList<Student> findByGradesGrvalue(int i);
 
 }

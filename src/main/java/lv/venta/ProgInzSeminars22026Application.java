@@ -45,8 +45,8 @@ public class ProgInzSeminars22026Application {
 				studRepo.saveAll(Arrays.asList(s1,s2));
 				
 				Course c1 = new Course("Programmēšana JAVA", 4, p1);//JAVA
-				Course c2 = new Course("Tīmekļa tehnoloģijas", 6, p2);//WEBTech
-				Course c3 = new Course("Programaturas inzenierija 1", 6, p1);
+				Course c2 = new Course("Tīmekļa tehnoloģijas", 2, p2);//WEBTech
+				Course c3 = new Course("Programaturas inzenierija 1", 3, p1);
 				c3.addProfessor(p3);
 				courseRepo.saveAll(Arrays.asList(c1,c2, c3));
 				

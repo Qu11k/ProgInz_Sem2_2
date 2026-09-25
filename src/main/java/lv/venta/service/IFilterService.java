@@ -16,5 +16,9 @@ public abstract ArrayList<Course> filterCoursesByProfessorDegree(Degree degree)
 throws Exception;
 public abstract ArrayList<Student> filterStudentsFailed()
 throws Exception;
+public abstract ArrayList<Student> filterStudentsByTen()
+throws Exception;
+public abstract ArrayList<Course> filterCoursesByCreditpoints()
+throws Exception;
 
 }

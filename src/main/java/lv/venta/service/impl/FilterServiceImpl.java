@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lv.venta.model.Course;
 import lv.venta.model.Grade;
 import lv.venta.model.Student;
 import lv.venta.model.enums.Degree;
@@ -93,5 +94,28 @@ private IProfessorRepo profRepo;
 		}
 		return results;
 	}
+	public ArrayList<Student> filterStudentsByTen() throws Exception{
+		if (gradeRepo.count()==0) {
+			throw new Exception("Atzimju tabula ir tuksa");
+			}
+		if(studRepo.count()==0){
+			throw new Exception("studentu tabula ir tuksa");
+			}
+		ArrayList<Student> results=studRepo.findByGradesGrvalue(10);
+		if(results.isEmpty()) {
+			throw new Exception("nav neviens students kuram butu 10");
+		}
+		return results;
+		
 
+}
+
+	@Override
+	public ArrayList<Course> filterCoursesByCreditpoints() throws Exception {
+		if (courseRepo.count()==0) {
+			throw new Exception("kursa tabula ir tuksa");
+		}
+		ArrayList<Course> results = courseRepo.findBycreditpointsLessThan(4);
+		return results;
+	}
 }

@@ -62,4 +62,26 @@ public class filterStudentController {
 			return "error-page";
 		}
 	}
+	@GetMapping("student/Ten")
+	public String getControllerTenStudents(Model model) {
+		try {
+			model.addAttribute("package", filterService.filterStudentsByTen());
+			return  "show-multiple-students";
+		}
+		catch(Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
+	@GetMapping("course/Less")
+	public String getControllerCourseCredit(Model model) {
+		try {
+			model.addAttribute("package", filterService.filterCoursesByCreditpoints());
+			return  "show-multiple-courses";
+		}
+		catch(Exception e) {
+			model.addAttribute("package", e.getMessage());
+			return "error-page";
+		}
+	}
 }
