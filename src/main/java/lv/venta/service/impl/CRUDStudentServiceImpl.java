@@ -55,11 +55,18 @@ private IGradeRepo gradeRepo;
 		}
 		studRepo.delete(studentsForDelete);
 	}
+//	public void Create(String Name, String Surname) ) throws Exception{
+//		if(newObject==null) {
+//			throw new Exception("Students nav tukss");
+//		}
+//	studRepo.save(newObject);	
+//	}
+	
 
 	@Override
 	public void updateById(long id, String name, String surname) throws Exception {
 		// TODO Auto-generated method stub
 		
+	}	
 	}
 
-}
