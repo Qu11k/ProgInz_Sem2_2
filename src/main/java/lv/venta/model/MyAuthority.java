@@ -52,4 +52,7 @@ public class MyAuthority {
 			users.remove(user);
 		}
 	}
+	public MyAuthority(String title) {
+		setTitle(title);
+	}
 }

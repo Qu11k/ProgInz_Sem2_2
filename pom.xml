@@ -85,7 +85,12 @@
     <artifactId>lombok</artifactId>
     <scope>compile</scope>
 </dependency>
-		
+
+		<dependency>
+			<groupId>eu.virac</groupId>
+			<artifactId>ProgInz_Course_Project</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
