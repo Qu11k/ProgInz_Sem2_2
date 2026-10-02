@@ -1,9 +1,13 @@
 package lv.venta.model;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -33,6 +37,16 @@ public class MyUser {
 	@NotNull
 	@NotEmpty
 	private String password;
-
-		
+	@ManyToMany(mappedBy = "users")
+	private Collection<MyAuthority> authorities = new ArrayList<MyAuthority>();
+	public void addUser (MyAuthority authority) {
+		if(!authorities.contains(authority)) {
+			authorities.add(authority);
+		}
+	}
+	public void removeUser(MyAuthority authority) {
+		if (authorities.contains(authority)) {
+			authorities.remove(authority);
+		}
+	}
 	}
