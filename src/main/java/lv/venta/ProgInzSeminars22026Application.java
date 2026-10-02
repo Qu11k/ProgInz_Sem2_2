@@ -73,15 +73,15 @@ public class ProgInzSeminars22026Application {
 				MyAuthority auth2 = new MyAuthority("USER");
 				authRepo.saveAll(Arrays.asList(auth1,auth2));
 				PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-				MyUser user1 = new MyUser("Martins", encoder.encode("123"));
-				MyUser user2 = new MyUser("Evalds", encoder.encode("321"));
-				MyUser user3 = new MyUser("Piters", encoder.encode("432"));
-				userRepo.saveAll(Arrays.asList(user1,user2,user3));
+				MyUser user1 = new MyUser("Martins", encoder.encode("123"),auth1);
+				MyUser user2 = new MyUser("Evalds", encoder.encode("321"),auth2);
+				MyUser user3 = new MyUser("Piters", encoder.encode("432"),auth1,auth2);
+				
 				auth1.addUser(user1);
 				auth2.addUser(user2);
 				auth2.addUser(user3);
-				
-				
+				auth1.addUser(user3);
+				userRepo.saveAll(Arrays.asList(user1,user2,user3));
 			}
 		};
 		
