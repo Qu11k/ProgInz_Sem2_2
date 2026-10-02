@@ -2,6 +2,7 @@ package lv.venta.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,6 +10,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.UserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration
 @EnableWebSecurity
@@ -24,10 +26,20 @@ public class SecurityConfig {
 		UserDetails userD2= User.builder()
 			.username("Vins")
 			.password(encoder.encode("321"))
-			.authorities("USER")
+			.authorities("ADMIN")
 			.build();
 		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager(userD1,userD2);
 		return manager;
 		
+	}
+@Bean
+	public SecurityFilterChain httpPremisions(HttpSecurity http) {
+		http.authorizeHttpRequests(auth->auth
+				.requestMatchers("/students/crud/all").permitAll()
+				.requestMatchers("/students/crud/delete/**").hasAuthority("ADMIN")
+				.requestMatchers("/students/crud/add").hasAnyAuthority("ADMIN","USER")
+				.requestMatchers("/filter/**").hasAuthority("USER"));
+		http.formLogin(auth->auth.permitAll());
+		return http.build();
 	}
 }
