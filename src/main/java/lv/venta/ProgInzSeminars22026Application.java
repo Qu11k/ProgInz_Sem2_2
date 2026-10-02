@@ -76,12 +76,13 @@ public class ProgInzSeminars22026Application {
 				MyUser user1 = new MyUser("Martins", encoder.encode("123"),auth1);
 				MyUser user2 = new MyUser("Evalds", encoder.encode("321"),auth2);
 				MyUser user3 = new MyUser("Piters", encoder.encode("432"),auth1,auth2);
+				userRepo.saveAll(Arrays.asList(user1,user2,user3));
 				
 				auth1.addUser(user1);
 				auth2.addUser(user2);
 				auth2.addUser(user3);
 				auth1.addUser(user3);
-				userRepo.saveAll(Arrays.asList(user1,user2,user3));
+				authRepo.saveAll(Arrays.asList(auth1,auth2));
 			}
 		};
 		

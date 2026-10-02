@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -24,6 +26,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
+@Entity
 @Table(name = "MyAuthorityTable")
 public class MyAuthority {
 	@Column(name = "Ida")
@@ -36,7 +39,7 @@ public class MyAuthority {
 	@NotEmpty
 	@Pattern(regexp= "[A-Z_]{3,15}")
 	private String title;
-	@ManyToMany
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "AuthUserTable",
 	inverseJoinColumns = @JoinColumn (name = "MyUserTable"),
 	joinColumns = @JoinColumn(name = "MyAuthorityTable"))
