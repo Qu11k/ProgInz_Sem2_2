@@ -16,6 +16,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+	@Bean
 	public PasswordEncoder getEncoder() {
 	PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 	return encoder;
@@ -37,7 +38,7 @@ public class SecurityConfig {
 				.requestMatchers("/students/crud/all").permitAll()
 				.requestMatchers("/students/crud/delete/**").hasAuthority("ADMIN")
 				.requestMatchers("/students/crud/add").hasAnyAuthority("ADMIN","USER")
-				.requestMatchers("/filter/**").hasAuthority("USER"));
+				.requestMatchers("/filter/**").hasAnyAuthority("USER"));
 		http.formLogin(auth->auth.permitAll());
 		return http.build();
 	}
