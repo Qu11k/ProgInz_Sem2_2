@@ -19,6 +19,16 @@ private IStudentRepo studRepo;
 private IGradeRepo gradeRepo;
 	@Override
 	public void create(Student newObject) throws Exception {
+		if(newObject == null) {
+			throw new Exception("Students nevar būt tukšs");
+		}
+		//TODO pārbaudīt newObject name, surname pēc regex, vai nav tukšs
+		if(studRepo.existsByNameAndSurname(
+				newObject.getName(), newObject.getSurname() )) {
+			throw new Exception("Tāds students jau eksistē!");
+		}
+		
+		studRepo.save(newObject);
 		
 	}
 

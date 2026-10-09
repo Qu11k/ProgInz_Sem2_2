@@ -51,7 +51,7 @@ private IProfessorRepo profRepo;
 		if (gradeRepo.count()==0) {
 			throw new Exception("atzimju tabula ir tuska");
 		}
-		if (courseRepo.existsByTitle(title)) {
+		if (!courseRepo.existsByTitle(title)) {
 			throw new Exception("kurss ar nosaukumu" +title+"neeskiste");
 		}
 		ArrayList<Grade> results = gradeRepo.findByCourseTitle(title);

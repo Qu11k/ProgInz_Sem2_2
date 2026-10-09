@@ -1,5 +1,7 @@
 package lv.venta.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -54,7 +56,7 @@ public class Professor {
 	//mappedBy jaliek uz otras klases mainīgā nosaukumu
 	@OneToOne(mappedBy = "professor")
 	@ToString.Exclude //neiekļaut šo mainīgo toString funkcijas veidošanā
-	//@JsonIgnore <-līdzīgi ka @ToString.Exclude, lai neveidojas cirkulārie izsaukumi
+	@JsonIgnore //<-līdzīgi ka @ToString.Exclude, lai neveidojas cirkulārie izsaukumi
 	private Course course;
 	
 	
