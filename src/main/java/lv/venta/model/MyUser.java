@@ -10,6 +10,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -47,6 +48,9 @@ public class MyUser {
 			authorities.add(authority);
 		}
 	}
+	@OneToOne(mappedBy="user")
+	private Student student;
+	
 	public void removeUser(MyAuthority authority) {
 		if (authorities.contains(authority)) {
 			authorities.remove(authority);
