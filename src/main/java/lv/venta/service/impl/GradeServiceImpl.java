@@ -2,7 +2,9 @@ package lv.venta.service.impl;
 
 import java.util.ArrayList;
 
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import lv.venta.model.Course;
 import lv.venta.model.Grade;
@@ -12,7 +14,7 @@ import lv.venta.repo.ICourseRepo;
 import lv.venta.repo.IGradeRepo;
 import lv.venta.repo.IStudentRepo;
 import lv.venta.service.IGradeService;
-
+@Service
 public class GradeServiceImpl implements IGradeService{
 
 	@Autowired
@@ -30,7 +32,7 @@ public class GradeServiceImpl implements IGradeService{
 			throw new Exception("Ienākošie dati nav pareizi ievadīti!");
 		}
 		
-		if(gradeDTO.getGradeValue() < 1 || gradeDTO.getGradeValue() > 10) {
+		if(gradeDTO.getGrValue() < 1 || gradeDTO.getGrValue() > 10) {
 			throw new Exception("Atzīmes vērtībai jābūt robežās no 1 līdz 10");
 		}
 		
@@ -48,14 +50,43 @@ public class GradeServiceImpl implements IGradeService{
 		
 		Course course = courseRepo.findByTitle(gradeDTO.getCourseTitle());
 		
-		Grade grade = new Grade(gradeDTO.getGradeValue(), stud, course);
-		gradeRepo.save(grade);
+		if(!gradeRepo.existsByGrvalueAndStudentAndCourse(
+				gradeDTO.getGrValue(), stud, course)) {
+		
+			Grade grade = new Grade(gradeDTO.getGrValue(), stud, course);
+			gradeRepo.save(grade);
+		}
 	}
 
 	@Override
 	public void addNewGrades(ArrayList<GradeDTO> gradesDTO) throws Exception {
-		// TODO Auto-generated method stub
+		if(gradesDTO == null) {
+			throw new Exception("Ienākošie dati nav pareizi ievadīti!");
+		}
 		
+		if(gradesDTO.isEmpty()) {
+			throw new Exception("Nav datu, ko saglabāt!");
+		}
+		
+		for(GradeDTO tempG: gradesDTO) {
+			addNewGrade(tempG);
+		}
+		
+	}
+
+	@Override
+	public ArrayList<GradeDTO> retrieveAll() throws Exception {
+		if(gradeRepo.count()==0) {
+			throw new Exception("Db nav neviena atzime");
+		}
+		ArrayList<GradeDTO> result = new ArrayList<>();
+		for (Grade tempG:gradeRepo.findAll()) {
+			result.add(new GradeDTO(tempG.getStudent().getName(),
+					tempG.getStudent().getSurname(),
+					tempG.getCourse().getTitle(),
+					tempG.getGrvalue()));
+		}
+		return result;
 	}
 
 }

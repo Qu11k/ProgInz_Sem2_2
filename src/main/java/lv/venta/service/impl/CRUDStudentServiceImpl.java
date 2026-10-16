@@ -26,8 +26,6 @@ public class CRUDStudentServiceImpl implements ICRUDStudentService {
 private IStudentRepo studRepo;
 	@Autowired
 private IGradeRepo gradeRepo;
-	@Autowired
-private ICRUDStudentService studService;
 	@Override
 	public void create(Student newObject) throws Exception {
 		if(newObject == null) {
