@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -61,5 +62,28 @@ public ResponseEntity<?> postController(@Valid @RequestBody Student student,
 	catch (Exception e) {
 		return new ResponseEntity<String>(e.getMessage(),HttpStatusCode.valueOf(409));
 	}
+}
+@PutMapping("/update/{id}")//localhost:8080/student/crud/update/2
+public ResponseEntity<?> putControllerUpdateStudentById(
+		@PathVariable(name = "id") long id, 
+		@Valid @RequestBody Student student,
+		BindingResult result){
+	
+	if(result.hasErrors()) {
+		return new ResponseEntity<Integer>(result.getErrorCount(),
+				HttpStatusCode.valueOf(409));
+	}
+	
+	try {
+		studService.updateById(id, student.getName(), student.getSurname());
+		return 
+		new ResponseEntity<ArrayList<Student>>
+		(studService.retrieveAll(), HttpStatusCode.valueOf(200));
+		
+	} catch (Exception e) {
+		return new ResponseEntity<String>(e.getMessage(),
+				HttpStatusCode.valueOf(409));
+	}
+	
 }
 }

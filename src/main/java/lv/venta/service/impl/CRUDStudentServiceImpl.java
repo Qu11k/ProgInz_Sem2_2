@@ -2,21 +2,32 @@ package lv.venta.service.impl;
 
 import java.util.ArrayList;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
 import lv.venta.model.Grade;
 import lv.venta.model.Student;
 import lv.venta.repo.IGradeRepo;
 import lv.venta.repo.IStudentRepo;
 import lv.venta.service.ICRUDStudentService;
 
-@Service
+@RestController
 public class CRUDStudentServiceImpl implements ICRUDStudentService {
 	@Autowired
 private IStudentRepo studRepo;
 	@Autowired
 private IGradeRepo gradeRepo;
+	@Autowired
+private ICRUDStudentService studService;
 	@Override
 	public void create(Student newObject) throws Exception {
 		if(newObject == null) {
@@ -68,8 +79,22 @@ private IGradeRepo gradeRepo;
 
 	@Override
 	public void updateById(long id, String name, String surname) throws Exception {
-		// TODO Auto-generated method stub
+		if(studRepo.count() == 0) {
+			throw new Exception("Studentu tabula ir tukša un nevar rediģēt nevienu studentu");
+		}
 		
+		if(id < 1) {
+			throw new Exception("Id nevar būt negatīvs vai 0");
+		}
+		
+		if(!studRepo.existsById(id)) {
+			throw new Exception("Students ar id " + id + " neeksistē");
+		}
+		//TODO pārbaudīt name un surname uz not null, not empty un regex
+		Student stud = studRepo.findById(id).get();
+		stud.setName(name);
+		stud.setSurname(surname);
+		studRepo.save(stud);
 	}
 
 }
