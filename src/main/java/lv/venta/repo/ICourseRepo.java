@@ -13,4 +13,6 @@ public interface ICourseRepo extends CrudRepository<Course, Long>{
 
 	ArrayList<Course> findByProfessorDegree(Degree degree);
 
+	Course findByTitle(String courseTitle);
+
 }

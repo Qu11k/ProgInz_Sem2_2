@@ -20,7 +20,7 @@ import lv.venta.repo.IGradeRepo;
 import lv.venta.repo.IStudentRepo;
 import lv.venta.service.ICRUDStudentService;
 
-@RestController
+@Service
 public class CRUDStudentServiceImpl implements ICRUDStudentService {
 	@Autowired
 private IStudentRepo studRepo;
