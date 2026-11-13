@@ -2,8 +2,9 @@ package lv.venta.controller;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.*;
-
 import static org.mockito.Mockito.when;
+
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -25,63 +26,107 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 
 import lv.venta.model.Student;
 import lv.venta.service.ICRUDStudentService;
+import lv.venta.service.impl.CRUDStudentServiceImpl;
 
 class StudentControllerTest {
 
 	@Mock
-	private ICRUDStudentService studService;
+	private CRUDStudentServiceImpl studService;
+	
 	@InjectMocks
 	private CRUDStudentController studController;
+	
 	private MockMvc mockMVC;
 	
 	@BeforeEach
-	public void initialize() {
+	public void initialze() {
 		MockitoAnnotations.openMocks(this);
-		LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
+		LocalValidatorFactoryBean validator 
+		= new LocalValidatorFactoryBean();
 		validator.afterPropertiesSet();
-		mockMVC= MockMvcBuilders.standaloneSetup(studController).setValidator(validator).build();
+		mockMVC = MockMvcBuilders.standaloneSetup(studController)
+				.setValidator(validator).build();
+	}
+	
+	//testēt /student/crud/all
+	@Test
+	public void testAllController() {
+		Student st1 = new Student("Karina", "Šķirmante");
+		Student st2 = new Student("Jānis", "Bērziņš");
+		
+		ArrayList<Student> testStudents = new ArrayList<>();
+		testStudents.addAll(Arrays.asList(st1, st2));
+		
+		try {
+			when(studService.retrieveAll()).thenReturn(testStudents);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		try {
+			mockMVC.perform(get("/students/crud/all"))
+			.andExpect(content().
+					contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(jsonPath("$[0].name", is("Karina")))
+			.andExpect(jsonPath("$[0].surname", is("Šķirmante")))
+			.andExpect(jsonPath("$[1].name", is("Jānis")))
+			.andExpect(jsonPath("$[1].surname", is("Bērziņš")))
+			.andExpect(status().isOk());
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+
 	}
 	@Test
-public void testAllControllers() {
-	Student st1= new Student("Martins", "Brokans");
-	Student st2 = new Student("Margrieta","Mare");
-	ArrayList<Student> testStudents= new ArrayList<>();
-	testStudents.addAll(Arrays.asList(st1,st2));
-	Student st3= new Student("Adolfs","Melnbardis");
-	try {
-	when(studService.create(st3)).thenReturn(st3);
-	testStudents.add(st3);
-	when(studService.retrieveAll()).thenReturn(testStudents);
-	}
-	catch(Exception e) {
-		e.printStackTrace();
-	}
-	try {
-		mockMVC.perform(post("/student/crud/add"))
-		.andExpect(content().contentType(MediaType.APPLICATION_JSON))
-		.andExpect(content().json("{"
-				+"    \"name\": \"Adolfs\","
-				+"    \"surname\": \"Melnbardis\","
-				+"}"))
-		.andExpect(status().isOk())
-		.andExpect(jsonPath("$[2].name", is("Adolfs")))
-		.andExpect(jsonPath("$[2].surname", is("Melnbardis")));
+	public void testAddController() {
+		
+		Student st1 = new Student("Karina", "Šķirmante");
+		Student st2 = new Student("Jānis", "Bērziņš");
+		
+		ArrayList<Student> testStudents = new ArrayList<>();
+		testStudents.addAll(Arrays.asList(st1, st2));
+		
+		Student st3 = new Student("Oskars", "Domigais");
+		
+		try {
+			when(studService.create(st3)).thenReturn(st3);
+			testStudents.add(st3);
+			
+			when(studService.retrieveAll()).thenReturn(testStudents);
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		
+		
+		try {
+			mockMVC.perform(post("/students/crud/add")
+					.contentType(MediaType.APPLICATION_JSON)
+					.content("{"
+					+ "			\"name\": \"Oskars\","
+					+ "			\"surname\": \"Domigais\""
+					+ "		}")
+					)
+			
+			.andExpect(content()
+					.contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+			.andExpect(status().isOk())
+			.andExpect(jsonPath("$[2].name", is("Oskars")))
+			.andExpect(jsonPath("$[2].surname", is("Domigais")));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
 	}
-	catch(Exception e) {
-		e.printStackTrace();
-	}
-	try {
-	mockMVC.perform(get("student/crud/all")).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-	.andExpect(jsonPath("$[0].name", is("Martins")))
-	.andExpect(jsonPath("$[0].surname", is("Brokans")))
-	.andExpect(jsonPath("$[1].name", is("Margrieta")))
-	.andExpect(jsonPath("$[1].surname", is("Mare")));}
-//	.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
 	
-	catch(Exception e) {
-		e.printStackTrace();
-	}
-}
+
 }
