@@ -1,9 +1,12 @@
 package lv.venta.controller;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.*;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.ArrayList;
@@ -14,6 +17,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
@@ -49,8 +53,13 @@ public void testAllControllers() {
 		e.printStackTrace();
 	}
 	try {
-	mockMVC.perform(get("student/crud/all")).andExpect(status().isOk());}
+	mockMVC.perform(get("student/crud/all")).andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+	.andExpect(jsonPath("$[0].name", is("Martins")))
+	.andExpect(jsonPath("$[0].surname", is("Brokans")))
+	.andExpect(jsonPath("$[1].name", is("Margrieta")))
+	.andExpect(jsonPath("$[1].surname", is("Mare")));}
 //	.andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON)
+	
 	catch(Exception e) {
 		e.printStackTrace();
 	}
