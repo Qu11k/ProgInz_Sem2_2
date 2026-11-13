@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -46,8 +47,27 @@ public void testAllControllers() {
 	Student st2 = new Student("Margrieta","Mare");
 	ArrayList<Student> testStudents= new ArrayList<>();
 	testStudents.addAll(Arrays.asList(st1,st2));
+	Student st3= new Student("Adolfs","Melnbardis");
 	try {
-		when(studService.retrieveAll()).thenReturn(testStudents);
+	when(studService.create(st3)).thenReturn(st3);
+	testStudents.add(st3);
+	when(studService.retrieveAll()).thenReturn(testStudents);
+	}
+	catch(Exception e) {
+		e.printStackTrace();
+	}
+	try {
+		mockMVC.perform(post("/student/crud/add"))
+		.andExpect(content().contentType(MediaType.APPLICATION_JSON))
+		.andExpect(content().json("{"
+				+"    \"name\": \"Adolfs\","
+				+"    \"surname\": \"Melnbardis\","
+				+"}"))
+		.andExpect(status().isOk())
+		.andExpect(jsonPath("$[2].name", is("Adolfs")))
+		.andExpect(jsonPath("$[2].surname", is("Melnbardis")));
+		
+		
 	}
 	catch(Exception e) {
 		e.printStackTrace();

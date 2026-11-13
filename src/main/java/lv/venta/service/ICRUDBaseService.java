@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public interface ICRUDBaseService<Ttype> {
 //create,retrieve all, by id un delete by id
-	public abstract void create(Ttype newObject)
+	public abstract Ttype create(Ttype newObject)
 	throws Exception;
 	public abstract ArrayList<Ttype>retrieveAll()
 	throws Exception;
